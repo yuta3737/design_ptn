@@ -13,12 +13,10 @@ abstract class SocialNetwork
 
     public function post(): bool
     {
-        // Authenticate before posting. Every network uses a different
-        // authentication method.
         if ($this->logIn($this->username, $this->password) === true) {
-            // Send the post data. All networks have different APIs.
+
             $result = $this->sendData();
-            // ...
+
             $this->logOut();
 
             return $result;
@@ -36,25 +34,24 @@ class Facebook extends SocialNetwork
 {
     public function logIn(string $userName, string $password): bool
     {
-        echo "\nChecking user's credentials...\n";
         echo "Name: " . $this->username . "\n";
         echo "Password: " . str_repeat("*", strlen($this->password)) . "\n";
 
-        echo "\n\nFacebook: '" . $this->username . "' has logged in successfully.\n";
+        echo "Facebook: '" . $this->username . "' ログイン\n";
 
         return true;
     }
 
     public function sendData(): bool
     {
-        echo "Facebook: '" . $this->username;
+        echo "Facebook: sendData\n";
 
         return true;
     }
 
     public function logOut(): void
     {
-        echo "Facebook: '" . $this->username . "' has been logged out.\n";
+        echo "Facebook: '" . $this->username . "' ログアウト\n\n\n";
     }
 
 }
@@ -64,30 +61,29 @@ class Twitter extends SocialNetwork
 {
     public function logIn(string $userName, string $password): bool
     {
-        echo "\nChecking user's credentials...\n";
         echo "Name: " . $this->username . "\n";
         echo "Password: " . str_repeat("*", strlen($this->password)) . "\n";
 
-        echo "\n\nTwitter: '" . $this->username . "' has logged in successfully.\n";
+        echo "Twitter: '" . $this->username . "'ログイン\n";
 
         return true;
     }
 
     public function sendData(): bool
     {
-        echo "Twitter: '" . $this->username;
+        echo "Twitter: sendData\n";
 
         return true;
     }
 
     public function logOut(): void
     {
-        echo "Twitter: '" . $this->username . "' has been logged out.\n";
+        echo "Twitter: '" . $this->username . "' ログアウト\n\n\n";
     }
 }
 
 
-
+// 全体のアルゴリズムや構造は変えたくないが、特定のステップを拡張、オリジナル化したい場合に、 Template Method パターンを使用
 $username = 'yuta';
 $password = 'yuta_hogehoge';
 $facebookNet = new Facebook($username, $password);

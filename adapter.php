@@ -59,6 +59,8 @@ class fruitJson
 
 }
 
+// array型の変数を扱うクラスとjson型の変数を扱うクラスがある。
+// json型で取得しなければならない場面であり、出力はarray型にする必要があるような場面でadapterパターンが使用される。
 $fruitList = ['apple', 'banana', 'hogehoge'];
 $fruitJson = json_encode($fruitList);
 
