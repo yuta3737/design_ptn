@@ -2,9 +2,6 @@
 
 namespace RefactoringGuru\Prototype\RealWorld;
 
-/**
- * Prototype.
- */
 class Page
 {
     private $title;
