@@ -1,98 +1,51 @@
 <?php
 
-namespace RefactoringGuru\Prototype\RealWorld;
+// 有効な場面
+// newによるオブジェクトの作成コストが高い場合
+// システム内で多数のインスタンスが共通の状態を共有する場合
+// オブジェクトの種類に応じて動的に新しいオブジェクトを生成する必要がある場合
 
-class Page
-{
-    private $title;
 
-    private $body;
+// 一番わかりやすかったのがゲームキャラクター複製の例
 
-    /**
-     * @var Author
-     */
-    private $author;
+// 同じモンスターを複数出現させたい場合、何回もnew　MetalSlime()するのは処理が重ければ重いほど負担がかかる
+// メタルスライムのクラス
+class MetalSlime {
+    public $hp;
+    public $attackPower;
+    public $defensePower = 255;
+    public $speed = 255;
 
-    private $comments = [];
-
-    /**
-     * @var \DateTime
-     */
-    private $date;
-
-    // +100 private fields.
-
-    public function __construct(string $title, string $body, Author $author)
-    {
-        $this->title = $title;
-        $this->body = $body;
-        $this->author = $author;
-        $this->author->addToPage($this);
-        $this->date = new \DateTime();
+    public function __construct($hp, $attackPower) {
+        $this->hp = $hp;
+        $this->attackPower = $attackPower;
     }
-
-    public function addComment(string $comment): void
-    {
-        $this->comments[] = $comment;
-    }
-
-    /**
-     * You can control what data you want to carry over to the cloned object.
-     *
-     * For instance, when a page is cloned:
-     * - It gets a new "Copy of ..." title.
-     * - The author of the page remains the same. Therefore we leave the
-     * reference to the existing object while adding the cloned page to the list
-     * of the author's pages.
-     * - We don't carry over the comments from the old page.
-     * - We also attach a new date object to the page.
-     */
-    public function __clone()
-    {
-        $this->title = "Copy of " . $this->title;
-        $this->author->addToPage($this);
-        $this->comments = [];
-        $this->date = new \DateTime();
+    
+    public function __clone() {
+        // ここで特別な複製処理が必要なら追加
     }
 }
 
-class Author
-{
-    private $name;
+// メタルスライム生成
+$metalSlime = new MetalSlime(10, 20);
+$hagureMetal = clone $metalSlime;
+$metalKing = clone $metalSlime;
 
-    /**
-     * @var Page[]
-     */
-    private $pages = [];
+// はぐれメタル
+// 複製後にカラムを上書きしたほうが処理が軽い場合に使えるデザインパターン
+$hagureMetal->hp = 15;
 
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
+// メタルキング
+$metalKing->hp = 30;
+$metalKing->attackPower = 100;
 
-    public function addToPage(Page $page): void
-    {
-        $this->pages[] = $page;
-    }
-}
 
-/**
- * The client code.
- */
-function clientCode()
-{
-    $author = new Author("John Smith");
-    $page = new Page("Tip of the day", "Keep calm and carry on.", $author);
+echo $hagureMetal->hp . "\n"; 
+echo $hagureMetal->attackPower . "\n"; 
+echo $hagureMetal->defensePower . "\n"; 
+echo $hagureMetal->speed . "\n";
 
-    // ...
-
-    $page->addComment("Nice tip, thanks!");
-
-    // ...
-
-    $draft = clone $page;
-    echo "Dump of the clone. Note that the author is now referencing two objects.\n\n";
-    print_r($draft);
-}
-
-clientCode();
+echo $metalKing->hp . "\n";
+echo $metalKing->attackPower . "\n"; 
+echo $metalKing->defensePower . "\n";
+echo $metalKing->speed . "\n";      
