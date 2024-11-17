@@ -1,6 +1,7 @@
 <?php
 
-// 1. 商品クラス (Product)
+// 1. Product
+// 最終的に生成される
 class Burger
 {
     public $bun;
@@ -11,12 +12,12 @@ class Burger
 
     public function show()
     {
-        echo "Burger with:\n";
-        echo "- Bun: " . $this->bun . "\n";
-        echo "- Patty: " . $this->patty . "\n";
-        echo "- Cheese: " . ($this->cheese ? $this->cheese : "None") . "\n";
-        echo "- Vegetables: " . ($this->vegetables ? implode(', ', $this->vegetables) : "None") . "\n";
-        echo "- Sauce: " . ($this->sauce ? $this->sauce : "None") . "\n";
+        echo "このバーガーの内容:\n";
+        echo "- バンズ: " . $this->bun . "\n";
+        echo "- パティ: " . $this->patty . "\n";
+        echo "- チーズ: " . ($this->cheese ? $this->cheese : "なし") . "\n";
+        echo "- 野菜: " . ($this->vegetables ? implode(', ', $this->vegetables) : "なし") . "\n";
+        echo "- ソース: " . ($this->sauce ? $this->sauce : "なし") . "\n";
     }
 }
 
@@ -31,7 +32,7 @@ interface BurgerBuilder
     public function getBurger();
 }
 
-// 3. Concrete Builder (具体的な構築者)
+// 3. Concrete Builder
 class CustomBurgerBuilder implements BurgerBuilder
 {
     private $burger;
@@ -78,6 +79,7 @@ class CustomBurgerBuilder implements BurgerBuilder
 }
 
 // 4. Directorクラス (オプション)
+// ここでどんなバーガーを作るかを決める。でも、実際に作るのはConcrete Builder
 class BurgerDirector
 {
     private $builder;
@@ -90,21 +92,21 @@ class BurgerDirector
     public function makeVeggieBurger()
     {
         $this->builder
-            ->setBun("Whole Grain")
-            ->setPatty("Veggie")
-            ->addVegetables(["Lettuce", "Tomato", "Cucumber"])
-            ->addSauce("Ketchup");
+            ->setBun("全粒粉バンズ")
+            ->setPatty("野菜パティ")
+            ->addVegetables(["レタス", "トマト", "キュウリ"])
+            ->addSauce("ケチャップ");
         return $this->builder->getBurger();
     }
 
     public function makeCheeseBurger()
     {
         $this->builder
-            ->setBun("Sesame")
-            ->setPatty("Beef")
-            ->addCheese("Cheddar")
-            ->addVegetables(["Lettuce", "Pickles"])
-            ->addSauce("Mayonnaise");
+            ->setBun("ゴマ付きバンズ")
+            ->setPatty("ビーフ")
+            ->addCheese("チェダー")
+            ->addVegetables(["レタス", "ピクルス"])
+            ->addSauce("マヨネーズ");
         return $this->builder->getBurger();
     }
 }
@@ -113,11 +115,11 @@ class BurgerDirector
 // 手動でビルダーを使う
 $builder = new CustomBurgerBuilder();
 $burger = $builder
-    ->setBun("Sesame")
-    ->setPatty("Chicken")
-    ->addCheese("Swiss")
-    ->addVegetables(["Lettuce", "Tomato"])
-    ->addSauce("BBQ")
+    ->setBun("ゴマ付きバンズ")
+    ->setPatty("チキン")
+    ->addCheese("スイス")
+    ->addVegetables(["レタス", "トマト"])
+    ->addSauce("BBQソース")
     ->getBurger();
 $burger->show();
 
@@ -132,3 +134,6 @@ echo "\n";
 
 $cheeseBurger = $director->makeCheeseBurger();
 $cheeseBurger->show();
+
+// directorクラスにはConcreteBuilderクラスのインスタンスが渡される。
+// ここでdirector側から見てBuilderがどんなクラスでどんなインスタンスなのか知らなくても良いという点がデザインパターンにおいて重要。
