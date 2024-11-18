@@ -1,5 +1,7 @@
 <?php
 
+// if-else や switch 文を使った複雑な条件分岐が不要
+
 // Strategy インターフェース
 interface DiscountStrategy {
     public function calculate(int $price): int;

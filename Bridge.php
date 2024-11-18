@@ -28,6 +28,7 @@ abstract class Shape
 {
     protected Color $color;
 
+    // 色を設定できる柔軟性がある。
     public function __construct(Color $color)
     {
         $this->color = $color;
@@ -58,7 +59,7 @@ $red = new RedColor();
 $blue = new BlueColor();
 
 $circle = new Circle($red);
-echo $circle->draw() . PHP_EOL; // 出力: Circle filled with Red
+echo $circle->draw() . PHP_EOL; 
 
 $rectangle = new Rectangle($blue);
-echo $rectangle->draw() . PHP_EOL; // 出力: Rectangle filled with Blue
+echo $rectangle->draw() . PHP_EOL; 

@@ -1,6 +1,7 @@
 <?php
 
 // Component インターフェース
+// 共通のインターフェースによりフォルダとファイルを 一貫した方法 で操作できる
 interface FileSystemComponent
 {
     public function show(int $depth = 0): string;
@@ -22,8 +23,8 @@ class File implements FileSystemComponent
     }
 }
 
-// Composite クラス (ディレクトリ)
-class Directory implements FileSystemComponent
+// Composite クラス (フォルダ)
+class Folder implements FileSystemComponent
 {
     private string $name;
     private array $children = [];
@@ -38,6 +39,7 @@ class Directory implements FileSystemComponent
         $this->children[] = $component;
     }
 
+    // ツリー構造を再帰的に処理できる。子要素が何であるか（フォルダかファイルか）を気にせずに処理できる
     public function show(int $depth = 0): string
     {
         $output = str_repeat("  ", $depth) . "+ " . $this->name . "\n";
@@ -54,19 +56,21 @@ $file1 = new File("file1.txt");
 $file2 = new File("file2.txt");
 $file3 = new File("file3.txt");
 
-// ディレクトリ作成
-$rootDir = new Directory("root");
-$subDir1 = new Directory("subdir1");
-$subDir2 = new Directory("subdir2");
+// フォルダ作成
+$rootFolder = new Folder("root");
+$subFolder1 = new Folder("subdir1");
+$subFolder2 = new Folder("subdir2");
 
-// ディレクトリにファイルやサブディレクトリを追加
-$subDir1->add($file1);
-$subDir1->add($file2);
+// フォルダにファイルやサブフォルダを追加
+$subFolder1->add($file1);
+$subFolder1->add($file2);
 
-$subDir2->add($file3);
+$subFolder2->add($file3);
 
-$rootDir->add($subDir1);
-$rootDir->add($subDir2);
+$rootFolder->add($subFolder1);
+$rootFolder->add($subFolder2);
 
 // 階層構造を表示
-echo $rootDir->show();
+echo $rootFolder->show();
+
+// フォルダとファイルを区別せずに操作できる
