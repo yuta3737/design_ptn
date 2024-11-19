@@ -11,6 +11,7 @@ interface Visitor {
 
 // === 2. Visitable（受け入れ可能な要素）インターフェース ===
 // 自身をVisitorに受け渡すためのacceptメソッドを定義
+// 各要素クラス（BookやDVD）はこのインターフェースを実装することで、Visitorの処理を受け渡せる。
 interface Visitable {
     public function accept(Visitor $visitor): void;
 }
@@ -63,7 +64,7 @@ class DVD implements Visitable {
 }
 
 // === 4. 具体的なVisitor ===
-// - 情報を表示するVisitor
+// - 詳細情報を表示するVisitor
 class InfoVisitor implements Visitor {
     public function visitBook(Book $book): void {
         echo "本のタイトル: '{$book->getTitle()}', 著者: {$book->getAuthor()}\n";
