@@ -69,3 +69,4 @@ $editor->restore($caretaker->getMemento(0));
 echo "元に戻した状態: '" . $editor->getText() . "'" . PHP_EOL;
 
 echo "Mementoパターンのデモを終了します。" . PHP_EOL;
+
