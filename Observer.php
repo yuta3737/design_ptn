@@ -58,8 +58,8 @@ class ConcreteObserver implements Observer {
 $subject = new Subject();
 
 // Observerを作成
-$observer1 = new ConcreteObserver("観測者1");
-$observer2 = new ConcreteObserver("観測者2");
+$observer1 = new ConcreteObserver("ユーザー1");
+$observer2 = new ConcreteObserver("ユーザー2");
 
 // ObserverをSubjectに登録
 $subject->attach($observer1);
@@ -74,3 +74,5 @@ $subject->detach($observer1);
 
 // 再度状態を変更し、通知
 $subject->setState("状態3");
+
+//subject とobserverがお互い詳細な実装を知ることなく処理を行うことができる
