@@ -46,5 +46,6 @@ function clientCode(DocumentInterface $document) {
 
 // 使用例
 echo "Proxyパターンのデモ\n";
+// DocumentInterfaceに依存、RealDocumentかDocumentProxyのどちらが渡されても良い
 $document = new DocumentProxy("example.txt");
 clientCode($document);

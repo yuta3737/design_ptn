@@ -63,7 +63,7 @@ class LightOffCommand implements Command
     }
 }
 
-// コマンドの実行を管理するインボーカー
+// コマンドの実行を管理するInvoker
 class RemoteControl
 {
     private $command;
